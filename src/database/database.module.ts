@@ -17,7 +17,8 @@ import configuration from './config/configuration';
                 synchronize: true,
             }),
             inject: [ConfigService],
-        })
+        }),
+        DatabaseModule
     ],
     providers: [],
     exports: [],

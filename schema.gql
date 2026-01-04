@@ -1,0 +1,50 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Representa un usuario y sus credenciales"""
+type User {
+  """Identificador unico de usuario"""
+  id: ID!
+
+  """Nombre de usuario"""
+  username: String!
+
+  """Contraseña de usuario"""
+  password: String!
+
+  """Muestra si el usuario ha sido borrado"""
+  deletedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  """Trae todos los usuarios registrados"""
+  findAllUsers: [User!]!
+
+  """Encuentra un usuario por su identificador"""
+  findOneUser(id: String!): User!
+}
+
+type Mutation {
+  """Crea un nuevo usuario"""
+  createUser(request: CreateUserDto!): User!
+
+  """Borra un usuario de manera blanda"""
+  softDeleteUSer(id: String!): String!
+
+  """Cancela el borrado blando de un usuario"""
+  cancelSoftDelete(id: String!): String!
+}
+
+"""
+El campo username y password son obligatorios proporcionarlos para crear un nuevo usuario
+"""
+input CreateUserDto {
+  username: String!
+  password: String!
+}
