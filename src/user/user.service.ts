@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
-import { BadRequestFunction, InternalExpectionFunction, hashPassword } from './scripts/scripts';
+import { BadRequestFunction, InternalExpectionFunction } from './utilities/scripts';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.input';
 import { UpdateUserDto } from './dto/update-user.input';
+import { hashPassword } from '../auth/utilities/scripts';
 
 @Injectable()
 export class UsersService {
@@ -33,18 +34,18 @@ export class UsersService {
   }
 
 
-  // async updateUser(id: string, body: UpdateUserDto): Promise<string> {
-  //   const user = await this.UserRepository.findOneBy({ id });
-  //   if (!user) return BadRequestFunction("No se ha encontrado un usuario referente")
-  //   let passwordHashed: string | null = null
-  //   if (body?.password) {
-  //     passwordHashed = await hashPassword(body?.password)
-  //     body.password = passwordHashed
-  //   }
-  //   const updatedUser = await this.UserRepository.update(id, { ...body });
-  //   if(!updatedUser) return InternalExpectionFunction("No se ha podido actualizar el usuario")
-  //   return "Usuario actualizado con exito";
-  // }
+  async updateUser(id: string, body: UpdateUserDto): Promise<string> {
+    const user = await this.UserRepository.findOneBy({ id });
+    if (!user) return BadRequestFunction("No se ha encontrado un usuario referente")
+    let passwordHashed: string | null = null
+    if (body?.password) {
+      passwordHashed = await hashPassword(body?.password)
+      body.password = passwordHashed
+    }
+    const updatedUser = await this.UserRepository.update(id, { ...body });
+    if(!updatedUser) return InternalExpectionFunction("No se ha podido actualizar el usuario")
+    return "Usuario actualizado con exito";
+  }
 
 
   async softDeleteUSer(id: string): Promise<string> {
