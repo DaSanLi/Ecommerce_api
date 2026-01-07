@@ -30,11 +30,11 @@ export class UsersResolver {
         return this.usersService.createUser(request);
     }
 
-    // @UsePipes(new ValidationPipe)
-    // @Mutation(() => String, {description: "Actualiza las credenciales de un usuario existente"})
-    // updateUser(@Args('id') id: string, @Args('body') body: UpdateUserDto) {
-    //     return this.usersService.updateUser(id, body);
-    // }
+    @UsePipes(new ValidationPipe)
+    @Mutation(() => String, {description: "Actualiza las credenciales de un usuario existente"})
+    updateUser(@Args('id') id: string, @Args('body') body: UpdateUserDto) {
+        return this.usersService.updateUser(id, body);
+    }
 
 
     @Mutation(() => String, {description: "Borra un usuario de manera blanda"})
